@@ -1,11 +1,16 @@
-import drive, pickle
+from drive import *
 from turtleAPI import robot
-# TEMP: 
+import cv2
+
 r = robot()
 while True:
+    print(r.getAngle()[2])
+
     angle = float(input("Angle: "))
-    while ( abs(r.getAngle() - angle) > .05 ):
+    while ( abs(r.getAngle()[2] - angle) > .05 ):
         print(r.getAngle())
-        r.drive(angularSpeed=pid_speed(-.1, 0, 0, angleDiff(r.getAngle()[2], angle)))
+        r.drive(angSpeed=.1)
+
+    r.drive(angSpeed=0)
     img = r.getImage()
-    img.save('image_' + str(angle))
+    cv2.imwrite('image_' + str(angle) + '.jpg', img)
