@@ -24,6 +24,7 @@ def getAverages(frame):
     return (left_average, mid_average, right_average)
 
 r = robot()
+r.drive(angSpeed=.1)
 while not rospy.is_shutdown():
     dpth = r.getDepth()
     print(getAverages(dpth))
