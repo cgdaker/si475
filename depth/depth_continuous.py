@@ -17,9 +17,9 @@ def getAverages(frame):
     third_third = frame[:, size_slice*2:rows]
 
     # average each
-    left_average = first_third.average()
-    mid_average = second_third.average()
-    right_average = third_third.average()
+    left_average = numpy.average(first_third)
+    mid_average = numpy.average(second_third)
+    right_average = numpy.average(third_third)
 
     return (left_average, mid_average, right_average)
 
