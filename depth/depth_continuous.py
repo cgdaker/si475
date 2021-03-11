@@ -1,5 +1,6 @@
 import rospy
 import cv2
+import numpy
 from turtleAPI import robot
 
 # frame is 639 pixels
@@ -24,4 +25,6 @@ def getAverages(frame):
 
 r = robot()
 while not rospy.is_shutdown():
+    #print('here')
     dpth = r.getDepth()
+    print(getAverages(dpth))
