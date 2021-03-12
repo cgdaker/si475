@@ -81,11 +81,11 @@ while not rospy.is_shutdown():
         continue
 
     # use pid to find angular speed
-    ang_speed = pid_speed(-.05, 0, -.01, pos, old_error, error_list)
+    ang_speed = pid_speed(-.001, 0, -.01, pos, old_error, error_list)
     old_error = pos
     error_list.append(pos)
 
     # drive!
-    r.drive(angSpeed=ang_speed, linSpeed=-.2)
+    r.drive(angSpeed=ang_speed, linSpeed=.05)
     print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
     rate.sleep()
