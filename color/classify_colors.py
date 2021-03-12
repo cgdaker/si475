@@ -26,6 +26,7 @@ def avgColor(frame):
 
 # main
 r = robot()
+r.drive(angSpeed=.2)
 while not rospy.is_shutdown():
 
     # get image and convert to the mask
