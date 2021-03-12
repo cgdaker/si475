@@ -16,6 +16,14 @@ yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
 
 
+def avgColor(frame):
+    # dimension - # of rows
+    width = frame.shape(0)
+
+    # get list of all non zero pizels
+    target_loc = cv2.findNonZero(frame)
+    print(target_loc)
+
 # main
 r = robot()
 while not rospy.is_shutdown():
@@ -24,6 +32,6 @@ while not rospy.is_shutdown():
     img = r.getImage()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-    print(type(outhsv))
+    avgColor(outhsv)
 
 img = cv2.imread('yellow.jpg')
