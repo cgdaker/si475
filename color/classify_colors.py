@@ -74,14 +74,14 @@ while not rospy.is_shutdown():
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
     pos = avgColor(outhsv)
-    print(pos)
+
     # if no target color in frame, spin
     if pos == -1:
         r.drive(angSpeed=.2)
         continue
 
     # use pid to find angular speed
-    ang_speed = pid_speed(-.001, 0, -.01, pos, old_error, error_list)
+    ang_speed = pid_speed(-.005, 0, -.01, pos, old_error, error_list)
     old_error = pos
     error_list.append(pos)
 
