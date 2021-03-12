@@ -1,5 +1,7 @@
 import cv2
+import rospy
 import numpy as np
+from turtleAPI import robot
 
 # constants
 red_lower = np.array([-3,15,15])           # done
@@ -13,8 +15,15 @@ blue_upper = np.array([125, 255, 255])     # done
 yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
 
-# red
+
+# main
+r = robot()
+while not rospy.is_shutdown():
+
+    # get image and convert to the mask
+    img = r.getImage()
+    hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+    outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
+    print(type(outhsv))
+
 img = cv2.imread('yellow.jpg')
-hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-cv2.imwrite('kermit2.jpg',outhsv)
