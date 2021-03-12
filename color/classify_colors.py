@@ -29,7 +29,7 @@ def avgColor(frame):
         return -1
 
     for x in target_loc:
-        sum += s[0]
+        sum += x[0]
         count += 1
 
     # calc average
