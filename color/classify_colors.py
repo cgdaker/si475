@@ -20,19 +20,69 @@ def avgColor(frame):
     # dimension - # of rows
     width = frame.shape[0]
 
-    # get list of all non zero pizels
+    # get list of all non zero pizels and average
+    count = 0
+    sum = 0
     target_loc = cv2.findNonZero(frame)
-    print(target_loc)
+    for x in target_loc:
+        sum += s[0]
+        count += 1
+
+    # calc average
+    avg = sum/count
+
+    # if no pixels in frame, ret -1
+    # else return avg x coordinate - width
+    if (avg == 0):
+        return -1
+    else:
+        return avg - width
+
+# pid
+def pid_speed(kp, ki, kd, error, old_error, error_list):
+
+    # add the error to the integral portion
+    if len(error_list) > 5:
+        error_list.pop()
+    error_list.append(error)
+
+    #calculate sum
+    error_sum = 0
+    for i in error_list:
+        error_sum += i
+
+    # kp portion + ki portion
+    to_return = (kp * error) + (ki * error_sum)
+    to_return += kd * (error - old_error)
+
+    return to_return
 
 # main
 r = robot()
 r.drive(angSpeed=.2)
+
+# list and error for pid
+error_list = []
+old_error = 0
+rate = rospy.Rate(20)
 while not rospy.is_shutdown():
 
     # get image and convert to the mask
     img = r.getImage()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-    avgColor(outhsv)
+    pos = avgColor(outhsv)
 
-img = cv2.imread('yellow.jpg')
+    # if no target color in frame, spin
+    if pos == -1:
+        r.drive(angSpeed=.2)
+        continue
+
+    # use pid to find angular speed
+    ang_speed = pid_speed(-.1, 0, -.01, pos, old_error, error_list)
+    old_error = pos
+    error_list.append(pos)
+
+    # drive!
+    r.drive(angSpeed=ang_speed, linSpeed=.5)
+    rate.sleep()
