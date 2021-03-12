@@ -86,6 +86,6 @@ while not rospy.is_shutdown():
     error_list.append(pos)
 
     # drive!
-    r.drive(angSpeed=ang_speed, linSpeed=.05)
+    r.drive(angSpeed=ang_speed, linSpeed=.3)
     print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
     rate.sleep()
