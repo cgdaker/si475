@@ -24,6 +24,10 @@ def avgColor(frame):
     count = 0
     sum = 0
     target_loc = cv2.findNonZero(frame)
+
+    if (target_loc == None):
+        return -1
+
     for x in target_loc:
         sum += s[0]
         count += 1
@@ -33,10 +37,7 @@ def avgColor(frame):
 
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
-    if (avg == 0):
-        return -1
-    else:
-        return avg - width
+    return avg - width
 
 # pid
 def pid_speed(kp, ki, kd, error, old_error, error_list):
