@@ -18,7 +18,7 @@ yellow_upper = np.array([35, 255, 255])     # done
 
 def avgColor(frame):
     # dimension - # of rows
-    width = frame.shape[0]
+    width = frame.shape[0]/2
 
     # get list of all non zero pizels and average
     count = 0
