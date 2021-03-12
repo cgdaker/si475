@@ -29,7 +29,8 @@ def avgColor(frame):
         return -1
 
     for x in target_loc:
-        sum += x[0]
+        #print(type(x[0]))
+	sum += x[0][0]
         count += 1
 
     # calc average
@@ -73,7 +74,7 @@ while not rospy.is_shutdown():
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
     pos = avgColor(outhsv)
-
+    print(pos)
     # if no target color in frame, spin
     if pos == -1:
         r.drive(angSpeed=.2)
