@@ -19,6 +19,7 @@ yellow_upper = np.array([35, 255, 255])     # done
 def avgColor(frame):
     # dimension - # of rows
     width = frame.shape[0]/2
+    height = frame.shape[1]/2
 
     # get list of all non zero pizels and average
     count = 0
@@ -30,15 +31,17 @@ def avgColor(frame):
 
     for x in target_loc:
         #print(type(x[0]))
-	sum += x[0][0]
+	    sum += x[0][0]
+        sumY += x[0][1]
         count += 1
 
     # calc average
     avg = sum/count
+    yAvg = sumY/count
 
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
-    return avg - width
+    return (avg - width, avg, yAvg)
 
 # pid
 def pid_speed(kp, ki, kd, error, old_error, error_list):
@@ -59,6 +62,41 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
 
     return to_return
 
+def checkDepth(frame, xAvg, yAvg):
+    # add buffer of ten
+    x_low = xAvg - 5
+    x_high = xAvg + 5
+    y_low = yAvg - 5
+    y_high = yAvg + 5
+
+    # slice from the depth sensor
+    slice = frame[x_low:x_high, y_low:y_high]
+
+    # average constants
+    sum = 0
+    count = 0
+
+    # avg distance
+    for row in slice.shape[0]:
+        for col in slice.shape[1]:
+
+            # in nan add ten
+            if slice[row, col].isnan():
+                sum += 10
+                count += 1
+                continue
+
+            # else add
+            sum += slice[row, col]
+            count += 1
+
+    # average and check against depth val
+    avg = sum/count
+    print("avg: " + avg)
+    if avg > 1:
+        return True
+    return False
+
 # main
 r = robot()
 r.drive(angSpeed=.2)
@@ -71,9 +109,14 @@ while not rospy.is_shutdown():
 
     # get image and convert to the mask
     img = r.getImage()
+    dpth = r.getDepth()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-    pos = avgColor(outhsv)
+    pos = avgColor(outhsv)[0]
+
+    #check depth
+    if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
+        return
 
     # if no target color in frame, spin
     if pos == -1:
