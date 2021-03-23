@@ -31,7 +31,7 @@ def avgColor(frame):
 
     for x in target_loc:
         #print(type(x[0]))
-	    sum += x[0][0]
+	sum += x[0][0]
         sumY += x[0][1]
         count += 1
 
@@ -138,7 +138,8 @@ while not rospy.is_shutdown():
 
     #check depth
     if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
-        return
+        print("stop!")
+        exit(0)
 
     # if no target color in frame, spin
     if pos == -1:
