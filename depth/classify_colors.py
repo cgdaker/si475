@@ -40,17 +40,17 @@ def avgColor(frame):
 
         depthSum += dpth[col][col]
 
-    # if not nan check and exit if close
-    if not math.isnan(depthSum):
-        print(' in isnan')
-        if depthSum < 2.0:
-            print("arrived!")
-            r.drive(angSpeed=0, linSpeed=0)
-            exit(0)
+
 
     # calc average
     avg = sum/count
-    print("depthsum " + str(depthSum/count))
+    # if not nan check and exit if close
+    if not math.isnan(depthSum/count):
+        print(' in isnan')
+        if depthSum < 2.0:
+            print("arrived! distance: " + str(depthSum/count))
+            r.drive(angSpeed=0, linSpeed=0)
+            exit(0)
 
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
