@@ -63,7 +63,7 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
 
     return to_return
 
-def checkDepth(frame, xAvg, yAvg):
+def checkDepth(frame, yAvg, xAvg):
 
     # add buffer of ten
     x_low = xAvg - 5
