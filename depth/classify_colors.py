@@ -78,8 +78,8 @@ def checkDepth(frame, xAvg, yAvg):
     count = 0
 
     # avg distance
-    for row in slice.shape[0]:
-        for col in slice.shape[1]:
+    for row in range(0, slice.shape[0]):
+        for col in range(0, slice.shape[1]):
 
             # in nan add ten
             if slice[row, col].isnan():
