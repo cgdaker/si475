@@ -46,8 +46,7 @@ def avgColor(frame):
     avg = sum/count
     # if not nan check and exit if close
     if not math.isnan(depthSum/count):
-        print(' in isnan')
-        if depthSum < 2.0:
+        if depthSum/count < 2.0:
             print("arrived! distance: " + str(depthSum/count))
             r.drive(angSpeed=0, linSpeed=0)
             exit(0)
