@@ -36,7 +36,7 @@ def avgColor(frame):
         sum += x[0][0]
         count += 1
 
-        depthSum += dpth[col][col]
+        #depthSum += dpth[col][col]
 
     # calc average
     avg = sum/count
