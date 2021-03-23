@@ -42,8 +42,8 @@ def avgColor(frame):
 
     # calc average
     avg = sum/count
-    print(depthSum/count)
-    
+    print("depthsum " + str(depthSum/count))
+
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
     return avg - width
