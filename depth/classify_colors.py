@@ -31,7 +31,6 @@ def avgColor(frame):
         return -1
 
     for x in target_loc:
-        print(x)
         row = x[0][1]
         col = x[0][0]
 
