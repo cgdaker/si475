@@ -87,11 +87,11 @@ def checkDepth(frame, xAvg, yAvg):
     for row in range(0, slice.shape[0]):
         for col in range(0, slice.shape[1]):
 
-            # in nan add ten
-            if slice[row, col].isnan():
-                sum += 10
-                count += 1
-                continue
+            # # in nan add ten
+            # if slice[row, col].isnan():
+            #     sum += 10
+            #     count += 1
+            #     continue
 
             # else add
             sum += slice[row, col]
