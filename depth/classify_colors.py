@@ -138,17 +138,16 @@ if __name__ == "__main__":
         dpth = r.getDepth()
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
         pos = avgColor(outhsv)
-        print(pos)
-
-        #check depth
-        if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
-            print("stop")
-            exit(0)
 
         # if no target color in frame, spin
         if pos == -1:
             r.drive(angSpeed=.2)
             continue
+        else:
+            #check depth
+            if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
+                print("stop")
+                exit(0)
 
         # use pid to find angular speed
         ang_speed = pid_speed(-.005, 0, -.0001, pos, old_error, error_list)
