@@ -120,7 +120,6 @@ if __name__ == "__main__":
         img = r.getImage()
         dpth = r.getDepth()
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        pos = avgColor(outhsv)
 
         if ballColor == "red":
             # red
@@ -140,6 +139,9 @@ if __name__ == "__main__":
         else:
             print("Invalid color choice. Quitting")
             quit()
+
+        # call function based on selection
+        pos = avgColor(outhsv)
 
         # if no target color in frame, spin
         if pos == -1:
