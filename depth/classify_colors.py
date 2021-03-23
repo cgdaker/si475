@@ -74,7 +74,7 @@ def checkDepth(frame, xAvg, yAvg):
     # slice from the depth sensor
     slice = frame[x_low:x_high, y_low:y_high]
     print(slice)
-    
+
     # average constants
     sum = 0
     count = 0
@@ -125,6 +125,7 @@ if __name__ == "__main__":
         # get image and convert to the mask
         img = r.getImage()
         dpth = r.getDepth()
+        print(dpth)
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
         if ballColor == "red":
