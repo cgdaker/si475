@@ -19,12 +19,10 @@ yellow_upper = np.array([35, 255, 255])     # done
 def avgColor(frame):
     # dimension - # of rows
     width = frame.shape[0]/2
-    height = frame.shape[1]/2
 
     # get list of all non zero pizels and average
     count = 0
     sum = 0
-    sumY = 0
     target_loc = cv2.findNonZero(frame)
 
     if (target_loc == None):
@@ -32,17 +30,15 @@ def avgColor(frame):
 
     for x in target_loc:
         #print(type(x[0]))
-        sum += x[0][0]
-        sumY += x[0][1]
+	sum += x[0][0]
         count += 1
 
     # calc average
     avg = sum/count
-    yAvg = sumY/count
 
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
-    return (avg - width, avg, yAvg)
+    return avg - width
 
 # pid
 def pid_speed(kp, ki, kd, error, old_error, error_list):
@@ -63,112 +59,55 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
 
     return to_return
 
-def checkDepth(frame, xAvg, yAvg):
+# main
+ballColor = raw_input("What color balloon do you want to go to? ")
 
-    # add buffer of ten
-    x_low = xAvg - 5
-    x_high = xAvg + 5
-    y_low = yAvg - 5
-    y_high = yAvg + 5
+r = robot()
+r.drive(angSpeed=.2)
 
+# list and error for pid
+error_list = []
+old_error = 0
+rate = rospy.Rate(20)
+while not rospy.is_shutdown():
 
-    # slice from the depth sensor
-    slice = frame[y_low:y_high, x_low:x_high]
-    print(slice)
-    if (slice.shape[0] == 0 or slice.shape[1] == 0):
-        return False
-
-    # average constants
-    sum = 0
-    count = 0
-
-    # avg distance
-    print("Shape")
-    print(slice.shape[0])
-    print(slice.shape[1])
-    for row in range(0, slice.shape[0]):
-        for col in range(0, slice.shape[1]):
-
-            # # in nan add ten
-            # if slice[row, col].isnan():
-            #     sum += 10
-            #     count += 1
-            #     continue
-
-            # else add
-            sum += slice[row, col]
-            count += 1
-
-    # average and check against depth val
-    avg = sum/count
-    print("avg: " + avg)
-    if avg > 1:
-        return True
-    return False
-
-if __name__ == "__main__":
-    # main
-    r = robot()
-    r.drive(angSpeed=.2)
-
-    # list and error for pid
-    error_list = []
-    old_error = 0
-    rate = rospy.Rate(20)
-
+    # get image and convert to the mask
     img = r.getImage()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
-    ballColor = raw_input("What color balloon do you want to go to? ")
-    outhsv = None
+    outhsv = 0
+    if ballColor == "red":
+        # red
+        outhsv = cv2.inRange(hsv,red_lower,red_upper)
+    elif ballColor == "blue":
+        # blue
+        outhsv = cv2.inRange(hsv,blue_lower,blue_upper)
+    elif ballColor == "green":
+        # green
+        outhsv = cv2.inRange(hsv,green_lower,green_upper)
+    elif ballColor == "yellow":
+        # yellow
+        outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
+    elif ballColor == "pink":
+        # pink
+        outhsv = cv2.inRange(hsv,pink_lower,pink_upper)
+    else:
+        print("Invalid color choice. Quitting")
+        quit()
 
+    pos = avgColor(outhsv)
 
-    while not rospy.is_shutdown():
+    # if no target color in frame, spin
+    if pos == -1:
+        r.drive(angSpeed=.2)
+        continue
 
-        # get image and convert to the mask
-        img = r.getImage()
-        dpth = r.getDepth()
-        hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+    # use pid to find angular speed
+    ang_speed = pid_speed(-.005, 0, -.0001, pos, old_error, error_list)
+    old_error = pos
+    error_list.append(pos)
 
-        if ballColor == "red":
-            # red
-            outhsv = cv2.inRange(hsv,red_lower,red_upper)
-        elif ballColor == "blue":
-            # blue
-            outhsv = cv2.inRange(hsv,blue_lower,blue_upper)
-        elif ballColor == "green":
-            # green
-            outhsv = cv2.inRange(hsv,green_lower,green_upper)
-        elif ballColor == "yellow":
-            # yellow
-            outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-        elif ballColor == "pink":
-            # pink
-            outhsv = cv2.inRange(hsv,pink_lower,pink_upper)
-        else:
-            print("Invalid color choice. Quitting")
-            quit()
-
-        # call function based on selection
-        pos = avgColor(outhsv)
-
-        # if no target color in frame, spin
-        if pos == -1:
-            r.drive(angSpeed=.2)
-            continue
-        else:
-            #check depth
-            if checkDepth(dpth, pos[1], pos[2]) == True:
-                print("stop")
-                exit(0)
-
-        # use pid to find angular speed
-        ang_speed = pid_speed(-.005, 0, -.0001, pos[0], old_error, error_list)
-        old_error = pos
-        error_list.append(pos)
-
-        # drive!
-        print("ang speed " + str(ang_speed))
-        r.drive(angSpeed=ang_speed, linSpeed=.3)
-        print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
-        rate.sleep()
+    # drive!
+    r.drive(angSpeed=ang_speed, linSpeed=.3)
+    print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
+    rate.sleep()
