@@ -97,60 +97,62 @@ def checkDepth(frame, xAvg, yAvg):
         return True
     return False
 
-# main
-r = robot()
-r.drive(angSpeed=.2)
+if __name__ == "__main__":
+    # main
+    r = robot()
+    r.drive(angSpeed=.2)
 
-# list and error for pid
-error_list = []
-old_error = 0
-rate = rospy.Rate(20)
+    # list and error for pid
+    error_list = []
+    old_error = 0
+    rate = rospy.Rate(20)
 
-hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-ballColor = raw_input("What color balloon do you want to go to? ")
-outhsv = None
-if ballColor == "red":
-    # red
-    outhsv = cv2.inRange(hsv,red_lower,red_upper)
-elif ballColor == "blue":
-    # blue
-    outhsv = cv2.inRange(hsv,blue_lower,blue_upper)
-elif ballColor == "green":
-    # green
-    outhsv = cv2.inRange(hsv,green_lower,green_upper)
-elif ballColor == "yellow":
-    # yellow
-    outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
-elif ballColor == "pink":
-    # pink
-    outhsv = cv2.inRange(hsv,pink_lower,pink_upper)
-else:
-    print("Invalid color choice. Quitting")
-    quit()
-
-while not rospy.is_shutdown():
-
-    # get image and convert to the mask
     img = r.getImage()
-    dpth = r.getDepth()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-    pos = avgColor(outhsv)[0]
+    ballColor = raw_input("What color balloon do you want to go to? ")
+    outhsv = None
+    if ballColor == "red":
+        # red
+        outhsv = cv2.inRange(hsv,red_lower,red_upper)
+    elif ballColor == "blue":
+        # blue
+        outhsv = cv2.inRange(hsv,blue_lower,blue_upper)
+    elif ballColor == "green":
+        # green
+        outhsv = cv2.inRange(hsv,green_lower,green_upper)
+    elif ballColor == "yellow":
+        # yellow
+        outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
+    elif ballColor == "pink":
+        # pink
+        outhsv = cv2.inRange(hsv,pink_lower,pink_upper)
+    else:
+        print("Invalid color choice. Quitting")
+        quit()
 
-    #check depth
-    if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
-        return
+    while not rospy.is_shutdown():
 
-    # if no target color in frame, spin
-    if pos == -1:
-        r.drive(angSpeed=.2)
-        continue
+        # get image and convert to the mask
+        img = r.getImage()
+        dpth = r.getDepth()
+        hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+        pos = avgColor(outhsv)[0]
 
-    # use pid to find angular speed
-    ang_speed = pid_speed(-.005, 0, -.0001, pos, old_error, error_list)
-    old_error = pos
-    error_list.append(pos)
+        #check depth
+        if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
+            return
 
-    # drive!
-    r.drive(angSpeed=ang_speed, linSpeed=.3)
-    print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
-    rate.sleep()
+        # if no target color in frame, spin
+        if pos == -1:
+            r.drive(angSpeed=.2)
+            continue
+
+        # use pid to find angular speed
+        ang_speed = pid_speed(-.005, 0, -.0001, pos, old_error, error_list)
+        old_error = pos
+        error_list.append(pos)
+
+        # drive!
+        r.drive(angSpeed=ang_speed, linSpeed=.3)
+        print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
+        rate.sleep()
