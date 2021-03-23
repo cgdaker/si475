@@ -1,5 +1,6 @@
 import cv2
 import rospy
+import math
 import numpy as np
 from turtleAPI import robot
 
@@ -44,7 +45,7 @@ def avgColor(frame):
         if depthSum < 2.0:
             print("arrived!")
             exit(0)
-            
+
     # calc average
     avg = sum/count
     print("depthsum " + str(depthSum/count))
