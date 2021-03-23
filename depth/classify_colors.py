@@ -64,7 +64,9 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
     return to_return
 
 def checkDepth(frame, xAvg, yAvg):
-
+    print(xAvg)
+    print(yAvg)
+    
     # add buffer of ten
     x_low = xAvg - 5
     x_high = xAvg + 5
@@ -125,7 +127,6 @@ if __name__ == "__main__":
         # get image and convert to the mask
         img = r.getImage()
         dpth = r.getDepth()
-        print(dpth)
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
         if ballColor == "red":
