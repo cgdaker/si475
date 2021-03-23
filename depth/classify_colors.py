@@ -24,6 +24,7 @@ def avgColor(frame):
     # get list of all non zero pizels and average
     count = 0
     sum = 0
+    sumY = 0
     target_loc = cv2.findNonZero(frame)
 
     if (target_loc == None):
@@ -31,7 +32,7 @@ def avgColor(frame):
 
     for x in target_loc:
         #print(type(x[0]))
-	sum += x[0][0]
+	    sum += x[0][0]
         sumY += x[0][1]
         count += 1
 
