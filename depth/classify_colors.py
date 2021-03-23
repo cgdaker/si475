@@ -39,6 +39,12 @@ def avgColor(frame):
 
         depthSum += dpth[col][col]
 
+    # if not nan check and exit if close
+    if not math.isnan(depthSum):
+        if depthSum < 2.0:
+            print("arrived!")
+            exit(0)
+            
     # calc average
     avg = sum/count
     print("depthsum " + str(depthSum/count))
