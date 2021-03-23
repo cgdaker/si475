@@ -32,7 +32,7 @@ def avgColor(frame):
 
     for x in target_loc:
         #print(type(x[0]))
-	    sum += x[0][0]
+        sum += x[0][0]
         sumY += x[0][1]
         count += 1
 
