@@ -45,6 +45,7 @@ def avgColor(frame):
         print(' in isnan')
         if depthSum < 2.0:
             print("arrived!")
+            r.drive(angSpeed=0, linSpeed=0)
             exit(0)
 
     # calc average
