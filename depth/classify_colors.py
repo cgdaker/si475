@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
     img = r.getImage()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
- 
+
     ballColor = raw_input("What color balloon do you want to go to? ")
     outhsv = None
     if ballColor == "red":
@@ -137,7 +137,8 @@ if __name__ == "__main__":
         img = r.getImage()
         dpth = r.getDepth()
         hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        pos = avgColor(outhsv)[0]
+        pos = avgColor(outhsv)
+        print(pos)
 
         #check depth
         if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
@@ -158,4 +159,3 @@ if __name__ == "__main__":
         r.drive(angSpeed=ang_speed, linSpeed=.3)
         print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
         rate.sleep()
-
