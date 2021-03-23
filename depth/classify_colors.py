@@ -64,6 +64,7 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
     return to_return
 
 def checkDepth(frame, xAvg, yAvg):
+
     # add buffer of ten
     x_low = xAvg - 5
     x_high = xAvg + 5
@@ -72,7 +73,8 @@ def checkDepth(frame, xAvg, yAvg):
 
     # slice from the depth sensor
     slice = frame[x_low:x_high, y_low:y_high]
-
+    print(slice)
+    
     # average constants
     sum = 0
     count = 0
