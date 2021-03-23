@@ -163,7 +163,7 @@ if __name__ == "__main__":
                 exit(0)
 
         # use pid to find angular speed
-        print(pos[0])
+        print("pos0 " + str(pos[0]))
         ang_speed = pid_speed(-.005, 0, -.0001, pos[0], old_error, error_list)
         old_error = pos
         error_list.append(pos)
