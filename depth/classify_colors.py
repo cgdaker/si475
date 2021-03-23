@@ -75,6 +75,8 @@ def checkDepth(frame, xAvg, yAvg):
     # slice from the depth sensor
     slice = frame[y_low:y_high, x_low:x_high]
     print(slice)
+    if (slice.shape[0] == 0 or slice.shape[1] == 0):
+        return False
 
     # average constants
     sum = 0
