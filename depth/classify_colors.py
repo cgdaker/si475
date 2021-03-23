@@ -105,13 +105,35 @@ r.drive(angSpeed=.2)
 error_list = []
 old_error = 0
 rate = rospy.Rate(20)
+
+hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+ballColor = raw_input("What color balloon do you want to go to? ")
+outhsv = None
+if ballColor == "red":
+    # red
+    outhsv = cv2.inRange(hsv,red_lower,red_upper)
+elif ballColor == "blue":
+    # blue
+    outhsv = cv2.inRange(hsv,blue_lower,blue_upper)
+elif ballColor == "green":
+    # green
+    outhsv = cv2.inRange(hsv,green_lower,green_upper)
+elif ballColor == "yellow":
+    # yellow
+    outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
+elif ballColor == "pink":
+    # pink
+    outhsv = cv2.inRange(hsv,pink_lower,pink_upper)
+else:
+    print("Invalid color choice. Quitting")
+    quit()
+
 while not rospy.is_shutdown():
 
     # get image and convert to the mask
     img = r.getImage()
     dpth = r.getDepth()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-    outhsv = cv2.inRange(hsv,yellow_lower,yellow_upper)
     pos = avgColor(outhsv)[0]
 
     #check depth
