@@ -40,6 +40,8 @@ def avgColor(frame):
     avg = sum/count
     yAvg = sumY/count
 
+    print("xAvg: " + str(yAvg))
+    print("yAvg: " + str(avg))
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
     return (avg - width, avg, yAvg)
@@ -70,9 +72,12 @@ def checkDepth(frame, yAvg, xAvg):
     x_high = xAvg + 5
     y_low = yAvg - 5
     y_high = yAvg + 5
+    print("x average " + str(xAvg))
+    print("y average " + str(yAvg))
+
 
     # slice from the depth sensor
-    slice = frame[x_low:x_high, y_low:y_high]
+    slice = frame[x_low:x_high]
     print(slice)
 
     # average constants
