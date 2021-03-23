@@ -73,7 +73,7 @@ def checkDepth(frame, xAvg, yAvg):
 
 
     # slice from the depth sensor
-    slice = frame[y_low:y_high]
+    slice = frame[y_low:y_high, x_low:x_high]
     print(slice)
 
     # average constants
