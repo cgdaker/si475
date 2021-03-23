@@ -35,7 +35,7 @@ def avgColor(frame):
         row = x[0][0]
         col = x[0][1]
 
-	    sum += x[0][0]
+        sum += x[0][0]
         count += 1
 
         depthSum += dpth[row][col]
