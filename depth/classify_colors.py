@@ -31,14 +31,12 @@ def avgColor(frame):
         return -1
 
     for x in target_loc:
-        #print(type(x[0]))
-        row = x[0][0]
-        col = x[0][1]
+        print(x)
 
         sum += x[0][0]
         count += 1
 
-        depthSum += dpth[row][col]
+        depthSum += dpth[col][col]
 
     # calc average
     avg = sum/count
