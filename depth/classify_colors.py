@@ -150,7 +150,7 @@ if __name__ == "__main__":
             continue
         else:
             #check depth
-            if checkDepth(dpth, avgColor[1], avgColor[2]) == True:
+            if checkDepth(dpth, pos[1], pos[2]) == True:
                 print("stop")
                 exit(0)
 
