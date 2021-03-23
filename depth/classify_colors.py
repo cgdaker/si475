@@ -78,6 +78,9 @@ def checkDepth(frame, xAvg, yAvg):
     count = 0
 
     # avg distance
+    print("Shape")
+    print(slice.shape[0])
+    print(slice.shape[1])
     for row in range(0, slice.shape[0]):
         for col in range(0, slice.shape[1]):
 
