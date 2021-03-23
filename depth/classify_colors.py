@@ -45,6 +45,7 @@ def avgColor(frame):
     # calc average
     avg = sum/count
     # if not nan check and exit if close
+    print(depthSum/count)
     if not math.isnan(depthSum/count):
         if depthSum/count < 2.0:
             print("arrived! distance: " + str(depthSum/count))
