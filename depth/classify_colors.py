@@ -42,6 +42,7 @@ def avgColor(frame):
 
     # if not nan check and exit if close
     if not math.isnan(depthSum):
+        print(' in isnan')
         if depthSum < 2.0:
             print("arrived!")
             exit(0)
