@@ -19,23 +19,31 @@ yellow_upper = np.array([35, 255, 255])     # done
 def avgColor(frame):
     # dimension - # of rows
     width = frame.shape[0]/2
+    dpth = r.getDepth()
 
     # get list of all non zero pizels and average
     count = 0
     sum = 0
     target_loc = cv2.findNonZero(frame)
+    depthSum = 0
 
     if (target_loc == None):
         return -1
 
     for x in target_loc:
         #print(type(x[0]))
-	sum += x[0][0]
+        row = x[0][0]
+        col = x[0][1]
+
+	    sum += x[0][0]
         count += 1
+
+        depthSum += dpth[row][col]
 
     # calc average
     avg = sum/count
-
+    print(depthSum/count)
+    
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
     return avg - width
