@@ -1,6 +1,7 @@
 import numpy as np
 import rospy
 import time
+import math
 from turtleAPI import robot
 
 rob = robot()
@@ -63,7 +64,7 @@ while not rospy.is_shutdown():
 
     if go == False:
         mid = 0
-        
+
     rob.drive(linSpeed=.35*mid,angSpeed=2*turn)
     r.sleep()
 
