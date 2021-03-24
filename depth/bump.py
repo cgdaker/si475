@@ -12,6 +12,8 @@ rob.drive(linSpeed=.3)
 
 def checkIfClose(midd):
     print(midd.shape)
+    if len(midd.shape) == 1:
+        return True
     #only
     for col in range(0, midd.shape[1]):
         count = 0
