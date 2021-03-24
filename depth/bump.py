@@ -11,7 +11,7 @@ r = rospy.Rate(5)
 rob.drive(linSpeed=.3)
 
 def checkIfClose(midd):
-    print(midd)
+    print(midd.shape)
     #only
     for col in range(0, midd.shape[1]):
         count = 0
