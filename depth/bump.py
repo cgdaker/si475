@@ -33,7 +33,7 @@ while not rospy.is_shutdown():
     far_r = np.average(far_r)
 
     # amke sure no cols have average less than a given number
-
+    print(midd)
     for col in range(0, midd.shape[1]):
         count = 0
         sum = 0
