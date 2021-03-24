@@ -26,7 +26,7 @@ while not rospy.is_shutdown():
     far_l = far_l[np.logical_not(np.isnan(far_l))]
     far_r = far_r[np.logical_not(np.isnan(far_r))]
 
-    midd = np.average(midd)
+    mid = np.average(midd)
     righ = np.average(righ)
     left = np.average(left)
     far_l = np.average(far_l)
@@ -48,16 +48,16 @@ while not rospy.is_shutdown():
             print('col average less than 0')
 
 
-    print((far_l,left,midd,righ,far_r))
+    print((far_l,left,mid,righ,far_r))
 
-    if midd < .8:
-        midd = 0
+    if mid < .8:
+        mid = 0
     turn = left-righ
     if far_l < 1:
         turn = -2
     if far_r < 1:
         turn = 2
-    rob.drive(linSpeed=.35*midd,angSpeed=2*turn)
+    rob.drive(linSpeed=.35*mid,angSpeed=2*turn)
     r.sleep()
 
 rob.stop()
