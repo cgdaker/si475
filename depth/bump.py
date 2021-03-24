@@ -31,14 +31,16 @@ while not rospy.is_shutdown():
             if math.isnan(midd[row][col]):
                 continue
 
-            count += 1
-            sum += midd[row][col]
-
-        #avg for this col
-        avg = sum/count
-        if avg < 1.0:
+            if midd[row][col] < 1.5:
+                count += 1
+            #sum += midd[row][col]
+        if count > 5:
             go = False
-            print('col average less than 0')
+        #avg for this col
+        # avg = sum/count
+        # if avg < 1.0:
+        #     go = False
+        #     print('col average less than 0')
 
     midd = midd[np.logical_not(np.isnan(midd))]
     left = left[np.logical_not(np.isnan(left))]
