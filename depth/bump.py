@@ -34,7 +34,8 @@ while not rospy.is_shutdown():
             if midd[row][col] < 1.5:
                 count += 1
             #sum += midd[row][col]
-        if count > 50:
+        if count > 100:
+            print(count)
             go = False
         #avg for this col
         # avg = sum/count
