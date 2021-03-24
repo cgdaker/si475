@@ -43,8 +43,6 @@ while not rospy.is_shutdown():
     far_r = depth[:,(4*cols/5)]
 
     go = checkIfClose(midd)
-    left = checkIfClose(far_l)
-    right = checkIfClose(far_l)
 
     midd = midd[np.logical_not(np.isnan(midd))]
     left = left[np.logical_not(np.isnan(left))]
@@ -70,14 +68,11 @@ while not rospy.is_shutdown():
 
     if go == False:
         mid = 0
-        turn = 4
-    elif right == False:
-        mid = 0
-        turn = -2
-    elif left == False:
-        mid = 0
-        turn = 2
-
+        if turn > 0:
+            turn = 4
+        else:
+            turn = -4
+            
     rob.drive(linSpeed=.25*mid,angSpeed=2*turn)
     r.sleep()
 
