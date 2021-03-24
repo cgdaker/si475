@@ -70,13 +70,14 @@ while not rospy.is_shutdown():
 
     if go == False:
         mid = 0
+        turn = 4
     elif right == False:
         mid = 0
         turn = -2
     elif left == False:
         mid = 0
         turn = 2
-        
+
     rob.drive(linSpeed=.25*mid,angSpeed=2*turn)
     r.sleep()
 
