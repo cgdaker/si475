@@ -75,7 +75,7 @@ while not rospy.is_shutdown():
     if far_r < 1:
         turn = 2
 
-    if go == False || l == False || r == False:
+    if go == False or l == False or r == False:
         mid = 0
         if turn > 0:
             turn = 4
