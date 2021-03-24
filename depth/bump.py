@@ -12,6 +12,7 @@ rob.drive(linSpeed=.3)
 while not rospy.is_shutdown():
     depth = rob.getDepth()
     rows, cols = depth.shape
+    go = True
 
     depth = depth[(rows/3):,:]
     left = depth[:,(cols/5):(2*cols/5)]
@@ -19,6 +20,24 @@ while not rospy.is_shutdown():
     righ = depth[:,(3*cols/5):(4*cols/5)]
     far_l = depth[:,:(cols/5)]
     far_r = depth[:,(4*cols/5)]
+
+    # amke sure no cols have average less than a given number
+    print(midd)
+    for col in range(0, midd.shape[1]):
+        count = 0
+        sum = 0
+        for row in range(0, midd.shape[0]):
+            if math.isnan(midd[row][col]):
+                continue
+
+            count += 1
+            sum += midd[row][col]
+
+        #avg for this col
+        avg = sum/count
+        if avg < 1.0:
+            go = False
+            print('col average less than 0')
 
     midd = midd[np.logical_not(np.isnan(midd))]
     left = left[np.logical_not(np.isnan(left))]
@@ -32,22 +51,6 @@ while not rospy.is_shutdown():
     far_l = np.average(far_l)
     far_r = np.average(far_r)
 
-    # amke sure no cols have average less than a given number
-    print(midd)
-    for col in range(0, midd.shape[1]):
-        count = 0
-        sum = 0
-        for row in range(0, midd.shape[0]):
-            count += 1
-            sum += midd[row][col]
-
-        #avg for this col
-        avg = sum/count
-        if avg < 1.0:
-            midd = 0
-            print('col average less than 0')
-
-
     print((far_l,left,mid,righ,far_r))
 
     if mid < .8:
@@ -57,6 +60,10 @@ while not rospy.is_shutdown():
         turn = -2
     if far_r < 1:
         turn = 2
+
+    if go == False:
+        mid = 0
+        
     rob.drive(linSpeed=.35*mid,angSpeed=2*turn)
     r.sleep()
 
