@@ -34,7 +34,8 @@ while not rospy.is_shutdown():
     depth = rob.getDepth()
     rows, cols = depth.shape
     go = True
-
+    l = True
+    r = True
     depth = depth[(rows/3):,:]
     left = depth[:,(cols/5):(2*cols/5)]
     midd = depth[:,(2*cols/5):(3*cols/5)]
@@ -43,6 +44,13 @@ while not rospy.is_shutdown():
     far_r = depth[:,(4*cols/5)]
 
     go = checkIfClose(midd)
+    l = checkIfClose(left)
+    r = checkIfClose(righ)
+    fl = checkIfClose(far_l)
+    fr = checkIfClose(far_r)
+
+    r = r or fr
+    l = l or fl
 
     midd = midd[np.logical_not(np.isnan(midd))]
     left = left[np.logical_not(np.isnan(left))]
@@ -66,13 +74,13 @@ while not rospy.is_shutdown():
     if far_r < 1:
         turn = 2
 
-    if go == False:
+    if go == False || l == False || r == False:
         mid = 0
         if turn > 0:
             turn = 4
         else:
             turn = -4
-            
+
     rob.drive(linSpeed=.25*mid,angSpeed=2*turn)
     r.sleep()
 
