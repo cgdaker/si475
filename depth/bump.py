@@ -36,7 +36,7 @@ while not rospy.is_shutdown():
 
         #avg for this col
         avg = sum/count
-        if avg < 1.5:
+        if avg < 1.0:
             go = False
             print('col average less than 0')
 
