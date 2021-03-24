@@ -25,7 +25,7 @@ def checkIfClose(midd):
 
         #avg for this col
         avg = sum/count
-        if avg < 1.0:
+        if avg < 1.25:
             return False
             print('col average less than 0')
 
