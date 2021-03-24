@@ -38,7 +38,8 @@ while not rospy.is_shutdown():
     rows, cols = depth.shape
     go = True
     l = True
-    r = True
+    go_right = True
+
     depth = depth[(rows/3):,:]
     left = depth[:,(cols/5):(2*cols/5)]
     midd = depth[:,(2*cols/5):(3*cols/5)]
@@ -48,11 +49,11 @@ while not rospy.is_shutdown():
 
     go = checkIfClose(midd)
     l = checkIfClose(left)
-    r = checkIfClose(righ)
+    go_right = checkIfClose(righ)
     fl = checkIfClose(far_l)
     fr = checkIfClose(far_r)
 
-    r = r or fr
+    go_right = go_right or fr
     l = l or fl
 
     midd = midd[np.logical_not(np.isnan(midd))]
@@ -77,7 +78,7 @@ while not rospy.is_shutdown():
     if far_r < 1:
         turn = 2
 
-    if go == False or l == False or r == False:
+    if go == False or l == False or go_right == False:
         mid = 0
         if turn > 0:
             turn = 4
