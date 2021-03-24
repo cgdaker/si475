@@ -12,7 +12,7 @@ rob.drive(linSpeed=.3)
 
 def checkIfClose(midd):
     print(midd)
-    for col in range(0, midd.shape[1]):
+    for col in range(0, midd.shape[1]/2):
         count = 0
         sum = 0
         for row in range(0, midd.shape[0]):
