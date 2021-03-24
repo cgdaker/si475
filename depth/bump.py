@@ -36,7 +36,7 @@ while not rospy.is_shutdown():
 
         #avg for this col
         avg = sum/count
-        if avg < 1.0:
+        if avg < 1.5:
             go = False
             print('col average less than 0')
 
@@ -65,7 +65,7 @@ while not rospy.is_shutdown():
     if go == False:
         mid = 0
 
-    rob.drive(linSpeed=.35*mid,angSpeed=2*turn)
+    rob.drive(linSpeed=.25*mid,angSpeed=2*turn)
     r.sleep()
 
 rob.stop()
