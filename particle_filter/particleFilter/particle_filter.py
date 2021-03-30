@@ -53,7 +53,7 @@ class Particle:
     self.b_r=b_r
     self.sigma_r=sigma_r
 
-  
+
   def obs(self):
     '''
     Returns three non-noisy measurements from the particle.
@@ -61,13 +61,13 @@ class Particle:
     angles=[robot.fixAngle(angle) for angle in [self.__yaw-np.pi/6,self.__yaw,self.__yaw+np.pi/6]]
     trueObs=[self.__room.trueObservation(self.__x,self.__y,angle) for angle in angles]
     return trueObs
-  
+
   def drive(self,linearDist):
     '''
     Performs noisy driving, based on the noise parameters b_l and sigma_l,
     stopping short if it runs into a wall.
     '''
-    realDist=#TODO: Set this equal to the actual distance to be moved by the particle
+    realDist = normpdf(linearDist, self.b_l, self.b_r) #TODO: Set this equal to the actual distance to be moved by the particle
     toWall=self.__room.trueObservation(self.__x,self.__y,self.__yaw)
     if toWall<realDist:
       realDist=toWall-1e-5
