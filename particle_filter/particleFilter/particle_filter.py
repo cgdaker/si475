@@ -117,7 +117,10 @@ def observe(rob,room,particles):
   Should take an observation from the robot and perform particle resampling.
   Return the list of new particles.
   '''
-  #TODO
+  # first thing - calculate weights
+  for p in particles:
+      obs = p.obs() # what the observations would have been
+      prob = normpdf()
 
 def main():
   N=10000
