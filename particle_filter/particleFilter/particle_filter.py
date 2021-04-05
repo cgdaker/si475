@@ -53,7 +53,7 @@ class Particle:
     self.b_r=b_r
     self.sigma_r=sigma_r
 
-
+  
   def obs(self):
     '''
     Returns three non-noisy measurements from the particle.
@@ -61,13 +61,13 @@ class Particle:
     angles=[robot.fixAngle(angle) for angle in [self.__yaw-np.pi/6,self.__yaw,self.__yaw+np.pi/6]]
     trueObs=[self.__room.trueObservation(self.__x,self.__y,angle) for angle in angles]
     return trueObs
-
+  
   def drive(self,linearDist):
     '''
     Performs noisy driving, based on the noise parameters b_l and sigma_l,
     stopping short if it runs into a wall.
     '''
-    realDist = self.b_l*linearDist+np.random.normal(scale=self.sigma_l) #TODO: Set this equal to the actual distance to be moved by the particle
+    realDist=self.b_l*linearDist+np.random.normal(scale=self.sigma_l)
     toWall=self.__room.trueObservation(self.__x,self.__y,self.__yaw)
     if toWall<realDist:
       realDist=toWall-1e-5
@@ -78,7 +78,7 @@ class Particle:
     '''
     Performs noisy driving, based on the noise parameters b_r and sigma_r.
     '''
-    realAngle=self.b_r*angle+np.random.normal(scale=self.sigma_r)#TODO: Set this equal to the actual angle turned by the particle
+    realAngle=self.b_r*angle+np.random.normal(scale=self.sigma_r)
     self.__yaw+=realAngle
     self.__yaw=robot.fixAngle(self.__yaw)
 
@@ -92,23 +92,19 @@ def move(rob,room,particles):
   '''
   Should move the robot and particles for the particle filter.
   '''
-  TorD=input("(T)urn, (D)rive, or (Q)uit? ")
+  TorD=raw_input("(T)urn, (D)rive, or (Q)uit? ")
   if TorD=='T' or TorD=='t':
     angle=float(input(" Angle? "))
-
-    # move robot and particles
+    #TODO
     rob.turn(angle)
-    for particle in particles:
-        particle.turn(angle)
-
+    for p in particles:
+	p.turn(angle)
   elif TorD=='D' or TorD=='d':
     distance=float(input(' Distance? '))
-
-    # turn robot and particles
+    #TODO
     rob.drive(distance)
-    for particle in particles:
-        particle.drive(distance)
-
+    for p in particles:
+	p.drive(distance)
   elif TorD=='Q' or TorD=='q':
     exit()
 
@@ -117,10 +113,38 @@ def observe(rob,room,particles):
   Should take an observation from the robot and perform particle resampling.
   Return the list of new particles.
   '''
-  # first thing - calculate weights
+  #TODO
+  newParticles=particles
+  weightsum = 0
   for p in particles:
-      obs = p.obs() # what the observations would have been
-      prob = normpdf()
+	p.weight = 1
+	oPar = p.obs()
+	oRob = rob.obs() 
+	for i in range(3):
+	  o = oRob[i]
+	  oP = oPar[i] 
+	  addend=normpdf(o - p.c_o*oP, 0, p.sigma_o)
+	  if addend==0:
+	   addend = .0000000000001
+	  p.weight = p.weight+np.log(addend)
+	weightsum = weightsum + p.weight
+  for p in particles:
+	p.weight = np.exp(p.weight)
+	#print p.weight
+
+  for i in range(10000):
+	r = weightsum*np.random.random()
+	samplesum = 0
+	for p in particles:
+	  samplesum = samplesum + p.weight
+	  if r <= samplesum:
+	    print r
+	    newParticles[i].pose = p.pose
+	    break
+  particles = newParticles
+  return particles
+  
+  
 
 def main():
   N=10000
