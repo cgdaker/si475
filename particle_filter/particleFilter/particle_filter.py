@@ -110,13 +110,18 @@ def move(rob,room,particles):
     elif TorD=='Q' or TorD=='q':
         exit()
 
-def observe(rob,room,particles):
+def observe(rob,room,particles, first):
     '''
     Should take an observation from the robot and perform particle resampling.
     Return the list of new particles.
     '''
     #TODO
-    newParticles=particles
+    # if first:
+    #     newParticles=[]
+    # else:
+    #     newParticles=particles
+    newParticles = particles[0:10000]
+
     weightsum = 0
 
     for p in particles:
@@ -150,6 +155,11 @@ def observe(rob,room,particles):
             samplesum = samplesum + p.weight
             if r <= samplesum:
                 #print(r)
+                # if first:
+                #     p.weight = np.log(p.weight)
+                #     newParticles.append(p)
+                # else:
+                #     newParticles[i].pose = p.pose
                 newParticles[i].pose = p.pose
                 break
 
@@ -163,7 +173,8 @@ def observe(rob,room,particles):
 
 
 def main():
-    N=10000
+    N=50000
+    first = True
     room=robot.Room()
     rob=robot.Robot(room,sigma_o=.3,sigma_l=.2,sigma_r=.1)
     particles = [Particle(room,sigma_o=.8,sigma_l=.2,sigma_r=.1) for i in range(N)]
@@ -172,7 +183,13 @@ def main():
         robot.display(rob,room,particles)
         move(rob,room,particles)
         robot.display(rob,room,particles)
-        particles=observe(rob,room,particles)
+
+        if first:
+            particles=observe(rob,room,particles, True)
+            first = False
+        else:
+            particles=observe(rob,room,particles, False)
+
         robot.display(rob,room,particles)
 
 if __name__ == "__main__":
