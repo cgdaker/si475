@@ -97,7 +97,7 @@ while not rospy.is_shutdown():
     # get image and convert to the mask
     img = r.getImage()
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-    cv2.imwrite('balloon.jpg', hsv)
+
 
     outhsv = 0
     if ballColor == "red":
@@ -119,6 +119,7 @@ while not rospy.is_shutdown():
         print("Invalid color choice. Quitting")
         quit()
 
+    cv2.imwrite('balloon.jpg', outhsv)
     pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
