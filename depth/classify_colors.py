@@ -119,7 +119,7 @@ while not rospy.is_shutdown():
         print("Invalid color choice. Quitting")
         quit()
 
-    cv2.imwrite('balloon.jpg', outhsv)
+    cv2.imshow('balloon.jpg', outhsv)
     pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
