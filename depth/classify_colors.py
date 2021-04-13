@@ -92,7 +92,7 @@ def check_in_frame(pos, frame):
 ballColor = raw_input("What color balloon do you want to go to? ")
 
 r = robot()
-r.drive(angSpeed=.2)
+r.drive(angSpeed=.1)
 
 # list and error for pid
 error_list = []
@@ -132,7 +132,7 @@ while not rospy.is_shutdown():
 
     # if no target color in frame, spin
     if count < 3000:
-        r.drive(angSpeed=.2)
+        r.drive(angSpeed=.1)
         continue
 
     # use pid to find angular speed
@@ -141,6 +141,6 @@ while not rospy.is_shutdown():
     error_list.append(pos)
 
     # drive!
-    r.drive(angSpeed=ang_speed, linSpeed=.15)
+    r.drive(angSpeed=ang_speed, linSpeed=.10)
     print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
     rate.sleep()
