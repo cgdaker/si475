@@ -18,7 +18,7 @@ yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
 
 def avgColor(frame):
-    print("here")
+    # print("here")
     # dimension - # of rows
     width = frame.shape[0]/2
     dpth = r.getDepth()
@@ -35,8 +35,8 @@ def avgColor(frame):
     if (target_loc == None):
         return -1
 
-    print(type(target_loc))
-    print("here2 \n")
+    # print(type(target_loc))
+    # print("here2 \n")
 
     if isinstance(target_loc, int):
         return -1
@@ -60,7 +60,7 @@ def avgColor(frame):
     # if not nan check and exit if close
     print(depthSum/count)
     if not math.isnan(depthSum/count):
-        if depthSum/count < .5:
+        if depthSum/count < .75:
             print("arrived! distance: " + str(depthSum/count))
             r.drive(angSpeed=0, linSpeed=0)
             exit(0)
