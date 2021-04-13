@@ -139,7 +139,7 @@ while not rospy.is_shutdown():
     pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
-    if count < 3000:
+    if count < 1000:
         r.drive(angSpeed=.1)
         continue
 
