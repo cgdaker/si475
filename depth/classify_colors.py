@@ -18,6 +18,7 @@ yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
 
 def avgColor(frame):
+    print("here")
     # dimension - # of rows
     width = frame.shape[0]/2
     dpth = r.getDepth()
@@ -41,9 +42,10 @@ def avgColor(frame):
 
         sum += x[0][0]
         count += 1
-        print(row, col)
+
         depthSum += dpth[row][col]
 
+    print("here2 \n")
     # for i in range(0, 5):
     #     rand = r.
 
