@@ -22,7 +22,7 @@ if __name__ == "main":
                         help='goal position')
 
     args = parser.parse_args()
-    print(args.accumulate(args.integers))
+    
     # read in all vertices
 
     # read in all edges
