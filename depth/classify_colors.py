@@ -44,7 +44,7 @@ def avgColor(frame):
         count += 1
 
         sum += x[0][0]
-        
+
 
         depthSum += dpth[row][col]
 
@@ -85,13 +85,13 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
 
     return to_return
 
-def check_in_frame(pos, frame):
-
-    if pos == -1:
-        return True
-
-    count = np.sum(frame == 255)
-    print("Count: " + count)
+# def check_in_frame(pos, frame):
+#
+#     if pos == -1:
+#         return True
+#
+#     count = np.sum(frame == 255)
+#     print("Count: " + count)
 
 # main
 ballColor = raw_input("What color balloon do you want to go to? ")
@@ -141,7 +141,7 @@ while not rospy.is_shutdown():
         continue
 
     # use pid to find angular speed
-    ang_speed = pid_speed(-.005, 0, -.0001, pos, old_error, error_list)
+    ang_speed = pid_speed(-.001, 0, -.0001, pos, old_error, error_list)
     old_error = pos
     error_list.append(pos)
 
