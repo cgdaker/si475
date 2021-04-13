@@ -38,9 +38,7 @@ def avgColor(frame):
         sum += x[0][0]
         count += 1
 
-        depthSum += dpth[col][col]
-
-
+        depthSum += dpth[col][row]
 
     # calc average
     avg = sum/count
@@ -74,6 +72,14 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
     to_return += kd * (error - old_error)
 
     return to_return
+
+def check_in_frame(pos, frame):
+
+    if pos == -1:
+        return True
+
+    count = np.sum(frame == 255)
+    print("Count: " + count)
 
 # main
 ballColor = raw_input("What color balloon do you want to go to? ")
@@ -114,7 +120,7 @@ while not rospy.is_shutdown():
     pos = avgColor(outhsv)
 
     # if no target color in frame, spin
-    if pos == -1:
+    if check_in_frame(pos, outhsv):
         r.drive(angSpeed=.2)
         continue
 
