@@ -47,8 +47,6 @@ def avgColor(frame):
         count += 1
 
         sum += x[0][0]
-
-
         depthSum += dpth[row][col]
 
 
@@ -60,7 +58,7 @@ def avgColor(frame):
     # if not nan check and exit if close
     print(depthSum/count)
     if not math.isnan(depthSum/count) and depthSum/count != 0:
-        if depthSum/count < .75:
+        if depthSum/count < 100:
             print("arrived! distance: " + str(depthSum/count))
             r.drive(angSpeed=0, linSpeed=0)
             exit(0)
