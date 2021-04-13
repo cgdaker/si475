@@ -1,6 +1,7 @@
 import cv2
 import rospy
 import math
+import random
 import numpy as np
 from turtleAPI import robot
 
@@ -11,7 +12,7 @@ pink_lower = np.array([145, 15, 15])       # done
 pink_upper = np.array([155, 255, 255])     # done
 green_lower= np.array([70, 15, 15])        # done
 green_upper= np.array([80, 255, 255])      # done
-blue_lower = np.array([110, 100, 15])       # done
+blue_lower = np.array([110, 100, 40])       # done
 blue_upper = np.array([130, 255, 255])     # done
 yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
@@ -21,6 +22,7 @@ def avgColor(frame):
     width = frame.shape[0]/2
     dpth = r.getDepth()
     count = 0
+    flag = False
 
     # get list of all non zero pizels and average
     count = 0
@@ -40,6 +42,9 @@ def avgColor(frame):
         count += 1
         print(row, col)
         depthSum += dpth[row][col]
+
+    for i in range(0, 5):
+        rand = Random()
 
     # calc average
     avg = sum/count
@@ -96,6 +101,7 @@ while not rospy.is_shutdown():
 
     # get image and convert to the mask
     img = r.getImage()
+    img = cv2.fastNIMeansDenoisingColored(img, None, 10, 10, 7, 21)
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
 
@@ -124,7 +130,7 @@ while not rospy.is_shutdown():
     pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
-    if count < 10000:
+    if count < 5000:
         r.drive(angSpeed=.2)
         continue
 
