@@ -29,6 +29,7 @@ def avgColor(frame):
     sum = 0
     target_loc = cv2.findNonZero(frame)
     depthSum = 0
+    #r = Random()
 
     if (target_loc == None):
         return -1
@@ -43,8 +44,8 @@ def avgColor(frame):
         print(row, col)
         depthSum += dpth[row][col]
 
-    for i in range(0, 5):
-        rand = Random()
+    # for i in range(0, 5):
+    #     rand = r.
 
     # calc average
     avg = sum/count
@@ -101,7 +102,7 @@ while not rospy.is_shutdown():
 
     # get image and convert to the mask
     img = r.getImage()
-    img = cv2.fastNIMeansDenoisingColored(img, None, 10, 10, 7, 21)
+    img = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
     hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
 
