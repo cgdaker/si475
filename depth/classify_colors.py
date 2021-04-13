@@ -16,11 +16,11 @@ blue_upper = np.array([125, 255, 255])     # done
 yellow_lower = np.array([25, 15, 15])       # done
 yellow_upper = np.array([35, 255, 255])     # done
 
-
 def avgColor(frame):
     # dimension - # of rows
     width = frame.shape[0]/2
     dpth = r.getDepth()
+    count = 0
 
     # get list of all non zero pizels and average
     count = 0
@@ -34,6 +34,7 @@ def avgColor(frame):
     for x in target_loc:
         row = x[0][1]
         col = x[0][0]
+        count += 1
 
         sum += x[0][0]
         count += 1
@@ -52,7 +53,7 @@ def avgColor(frame):
 
     # if no pixels in frame, ret -1
     # else return avg x coordinate - width
-    return avg - width
+    return avg - width, count
 
 # pid
 def pid_speed(kp, ki, kd, error, old_error, error_list):
@@ -117,10 +118,10 @@ while not rospy.is_shutdown():
         print("Invalid color choice. Quitting")
         quit()
 
-    pos = avgColor(outhsv)
+    pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
-    if check_in_frame(pos, outhsv):
+    if count < 10000:
         r.drive(angSpeed=.2)
         continue
 
