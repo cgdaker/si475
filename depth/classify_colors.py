@@ -126,12 +126,12 @@ while not rospy.is_shutdown():
         print("Invalid color choice. Quitting")
         quit()
 
-    cv2.imshow('balloon.jpg', outhsv)
-    cv2.waitKey(0)
+    #cv2.imshow('balloon.jpg', outhsv)
+    #cv2.waitKey(0)
     pos, count = avgColor(outhsv)
 
     # if no target color in frame, spin
-    if count < 5000:
+    if count < 3000:
         r.drive(angSpeed=.2)
         continue
 
@@ -141,6 +141,6 @@ while not rospy.is_shutdown():
     error_list.append(pos)
 
     # drive!
-    r.drive(angSpeed=ang_speed, linSpeed=.3)
+    r.drive(angSpeed=ang_speed, linSpeed=.15)
     print("pos: " + str(pos) + " angSpeed: " + str(ang_speed))
     rate.sleep()
