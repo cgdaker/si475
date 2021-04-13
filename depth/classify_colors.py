@@ -38,24 +38,22 @@ def avgColor(frame):
     print(type(target_loc))
     print("here2 \n")
 
-    # for x in target_loc:
-    #     row = x[0][1]
-    #     col = x[0][0]
-    #     count += 1
-    #
-    #     sum += x[0][0]
-    #     count += 1
-    #
-    #     depthSum += dpth[row][col]
+    for x in target_loc:
+        row = x[0][1]
+        col = x[0][0]
+        count += 1
 
-    depthSum = 1
-    count = .2
+        sum += x[0][0]
+        count += 1
+
+        depthSum += dpth[row][col]
+
 
     # for i in range(0, 5):
     #     rand = r.
 
     # calc average
-    #avg = sum/count
+    avg = sum/count
     # if not nan check and exit if close
     print(depthSum/count)
     if not math.isnan(depthSum/count):
