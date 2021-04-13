@@ -35,6 +35,8 @@ def avgColor(frame):
     if (target_loc == None):
         return -1
 
+    print("here2 \n")
+    
     for x in target_loc:
         row = x[0][1]
         col = x[0][0]
@@ -45,7 +47,7 @@ def avgColor(frame):
 
         depthSum += dpth[row][col]
 
-    print("here2 \n")
+
     # for i in range(0, 5):
     #     rand = r.
 
