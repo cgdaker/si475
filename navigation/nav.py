@@ -8,6 +8,7 @@ import numpy as np
 
 class Vertex:
 
+    # all adjacent nodes are stored in each vertex's adj_nodes dictionary with the distance
     def __init__(self, label, x, y):
         self.label = label
         self.adj_nodes = {}
