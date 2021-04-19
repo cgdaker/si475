@@ -38,6 +38,7 @@ for line in file:
     if line == '\n':
         break
 
+    print(line)
     # read in the vertex
     line_parts = line.split('[')
     label = line_parts[0].strip(' ')
