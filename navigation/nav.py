@@ -4,6 +4,7 @@ import math
 import random
 import argparse
 import numpy as np
+import dijkstra as dij
 #from turtleAPI import robot
 
 class Vertex:
@@ -68,5 +69,8 @@ for line in file:
     v.adj_nodes[second_node] = v.distance(s.x, s.y)
     s.adj_nodes[first_node] = s.distance(v.x, v.y)
 
+
 # make matrix
-print(adj_matrix['A'].adj_nodes['C'])
+print(adj_matrix['1a'].adj_nodes['2a'])
+dij.dijkstra(adj_matrix)
+
