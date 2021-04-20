@@ -71,6 +71,8 @@ for line in file:
 
 
 # make matrix
-print(adj_matrix['1a'].adj_nodes['2a'])
-dij.dijkstra(adj_matrix)
+#print(adj_matrix['1a'].adj_nodes['2a'])
+
+print("\n")
+dij.dijkstra(adj_matrix, '1a')
 
