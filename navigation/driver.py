@@ -3,8 +3,7 @@ from turtleAPI import robot
 
 # make the robot and lists for tracking error
 r = robot()
-error_list_pos = []
-error_list_angle = []
+
 
 #error function for angle
 def angleDiff(cur_angle, desired):
@@ -54,7 +53,10 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
     return to_return
 
 
-def run(x, y):
+def run(x, y, r):
+    error_list_pos = []
+    error_list_angle = []
+    
     #take input
     goal_pos = (x, y)
 

@@ -52,10 +52,10 @@ def find_closest(goal_vertex, adj_matrix):
     print("Closest node: " + closest_node.label)
 
 # just put in list of nodes to drive to
-def drive(node_list):
+def drive(node_list, robot):
     for node in node_list:
-        driver.run(node.x, node.y)
-        
+        driver.run(node.x, node.y, robot)
+
 # parse args
 parser = argparse.ArgumentParser(description='Navigate the robot to a given location')
 parser.add_argument('path', metavar='p', type=str, help='path to DOT file')
@@ -123,8 +123,14 @@ if third_arg:
     start_coords = args.start.split(",")
     x_goal = coords[0].strip()
     y_goal = coords[1].strip()
-    start = Vertex("Start", x_goal, y_goal)
-    find_closest(start, adj_matrix)
+else:
+    #robot get mcl pose
+    x_goal = #robot x coord
+    y_goal = #robot y coord
+
+# make vertex and get closest
+start = Vertex("Start", x_goal, y_goal)
+find_closest(start, adj_matrix)
 
 # make matrix
 #print(adj_matrix['1a'].adj_nodes['2a'])
