@@ -3,6 +3,7 @@
 import math
 import random
 import argparse
+from driver import driver
 import numpy as np
 import sys
 import dijkstra as dij
@@ -50,6 +51,11 @@ def find_closest(goal_vertex, adj_matrix):
     closest_node.adj_nodes[goal_vertex.label] = closest_node.distance(goal_vertex.x, goal_vertex.y)
     print("Closest node: " + closest_node.label)
 
+# just put in list of nodes to drive to
+def drive(node_list):
+    for node in node_list:
+        driver.run(node.x, node.y)
+        
 # parse args
 parser = argparse.ArgumentParser(description='Navigate the robot to a given location')
 parser.add_argument('path', metavar='p', type=str, help='path to DOT file')
