@@ -119,12 +119,14 @@ y_goal = coords[1].strip()
 goal_vertex = Vertex("Goal", x_goal, y_goal)
 find_closest(goal_vertex, adj_matrix)
 
+r = Robot()
 if third_arg:
     start_coords = args.start.split(",")
     x_goal = coords[0].strip()
     y_goal = coords[1].strip()
 else:
     #robot get mcl pose
+    pos = r.getMCLPose()
     x_goal = #robot x coord
     y_goal = #robot y coord
 
