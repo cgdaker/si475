@@ -11,7 +11,7 @@ class Node:
         self.visited = False
         self.parent = None
 
-def dijkstra(matrix, destinationKey):
+def dijkstra(matrix, startKey, destinationKey):
     #1 Mark all nodes unvisited. Create a set of all the unvisited nodes called the unvisited set.
 
     # create set of unvisited nodes
@@ -32,7 +32,7 @@ def dijkstra(matrix, destinationKey):
         #print(node.name + " " + str(node.value))
 
     # set initial node as current and distance value to zero
-    current = unvisitedNodes[0]
+    current = unvisitedNodes[unvisitedNodes.length]
     current.value = 0
 
     while(True):
