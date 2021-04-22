@@ -11,7 +11,7 @@ class Node:
         self.visited = False
         self.parent = None
 
-def dijkstra(matrix, destinationKey):
+def dijkstra(matrix, startKey, destinationKey):
     #1 Mark all nodes unvisited. Create a set of all the unvisited nodes called the unvisited set.
 
     # create set of unvisited nodes
@@ -32,7 +32,7 @@ def dijkstra(matrix, destinationKey):
         #print(node.name + " " + str(node.value))
 
     # set initial node as current and distance value to zero
-    current = unvisitedNodes[0]
+    current = unvisitedNodes[unvisitedNodes.length]
     current.value = 0
 
     while(True):
@@ -43,15 +43,15 @@ def dijkstra(matrix, destinationKey):
         #print(unvisited[0].neighbors['2a'])
         #print(current.name)
         for key in current.neighbors:
-            
+
             try:
                 neighborIndex = unvisitedKeys.index(key)
                 neighborNode = unvisitedNodes[neighborIndex]
-                
+
                 # distance from current node to given neighbor
                 dis = current.neighbors[key]
                 newDistance = current.value + dis
-                
+
                 if(newDistance < neighborNode.value):
                     neighborNode.value = newDistance
                     neighborNode.parent = current
@@ -76,7 +76,7 @@ def dijkstra(matrix, destinationKey):
             #print("algorithm complete: output answer here")
             print(getParents(destinationNode))
             break
-        
+
         #6 Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new "current node", and go back to step 3.
         else:
             current = unvisitedNodes[0]

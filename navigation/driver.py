@@ -2,7 +2,6 @@ import math, rospy
 from turtleAPI import robot
 
 # make the robot and lists for tracking error
-r = robot()
 
 
 #error function for angle
@@ -56,7 +55,7 @@ def pid_speed(kp, ki, kd, error, old_error, error_list):
 def run(x, y, r):
     error_list_pos = []
     error_list_angle = []
-    
+
     #take input
     goal_pos = (x, y)
 
