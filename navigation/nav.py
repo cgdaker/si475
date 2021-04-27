@@ -128,7 +128,7 @@ goal_vertex = Vertex("Goal", x_goal, y_goal)
 find_closest(goal_vertex, adj_matrix)
 
 if third_arg:
-    start_coords = args.start.split(",")
+    start_coords = args.start[0].split(",")
     x_goal = coords[0].strip()
     y_goal = coords[1].strip()
 else:
