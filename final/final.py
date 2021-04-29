@@ -2,7 +2,7 @@ from state import State
 
 def get_nodelist(path):
 
-    
+
     #open file and iterate
     file = open(path, 'r')
     next(file)
@@ -28,3 +28,5 @@ path = 'file.txt'
 nodelist = get_nodelist(path)
 init_state = State((0,0), {"B": (1,1) }, nodelist)
 end = State((0,0) {"B": (2,2)}, nodelist)
+
+# a star
