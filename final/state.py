@@ -1,7 +1,7 @@
 class State:
 
     # takes in a position and a disctionary of balloon locations
-    def __init__(self, position, balloons, goal, parent, priority=1000):
+    def __init__(self, position, balloons, goal, parent=None, priority=1000):
         self.position = position
         self.balloons = balloons
         self.goal = goal
@@ -15,7 +15,7 @@ class State:
 
         # list to return
         to_return = []
-        near_balloons = {}
+        #near_balloons = {}
 
         for state in self.drive_to():
             #print(state.to_string())
@@ -39,10 +39,13 @@ class State:
 
         # check if near enough goal location to put down
         for key in self.goal.balloons:
+            if self.balloons[key] != None:
+                continue
+
             if self.get_distance(self.goal.balloons[key]) < 1:
                 put_down = self.balloons.copy()
                 put_down[key] = self.position
-                ret = State(self.position, put_down, self.goal, self)
+                ret = State(self.position, put_down, self.goal)
                 #print(ret.to_string())
                 to_return.append(ret)
 
@@ -59,9 +62,20 @@ class State:
             if (self.get_distance(self.balloons[key]) < .5):
                 continue
 
-            toreturn = State(self.balloons[key], self.balloons, self.goal, self)
+            toreturn = State(self.balloons[key], self.balloons, self.goal)
             #print(toreturn.to_string())
             to_return.append(toreturn)
+
+        for key in self.goal.balloons:
+
+            # make sure it doesn't keep driving to same state
+            if (self.get_distance(self.goal.balloons[key]) < .5):
+                continue
+
+            toreturn = State(self.goal.balloons[key], self.balloons, self.goal)
+            to_return.append(toreturn)
+
+
         return to_return
 
     def to_string(self):
@@ -91,7 +105,7 @@ class State:
                     # set position of balloon to none to show its being carried
                     pick_up = self.balloons.copy()
                     pick_up[key] = None
-                    ret = State(self.position, pick_up, self.goal, self)
+                    ret = State(self.position, pick_up, self.goal)
                     #print(ret.to_string())
                     to_return.append(ret)
 
@@ -112,6 +126,7 @@ class State:
             # check if already being carried
             if current == None:
                 current = self.position
+                #continue
 
             diff = (current[0] - goal[0]) ** 2
             diff += (current[1] - goal[1]) ** 2
@@ -130,7 +145,15 @@ class State:
         return to_return ** .5
 
 
-
+# start and end state, nodelist
+# balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
+# goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
+#
+# goal = State ( (0,0),  goal_balloons, None, None)
+# start = State( (3,3), balloons, goal, None)
+# list = start.put_down()
+# for state in list:
+#     print(state.to_string())
 # balloons = { 'B': None, 'A': (10, 10), 'C': (100,100) }
 # goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 # #
