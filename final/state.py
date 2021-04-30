@@ -1,10 +1,14 @@
 class State:
 
     # takes in a position and a disctionary of balloon locations
-    def __init__(self, position, balloons, goal):
+    def __init__(self, position, balloons, goal, parent, priority=1000):
         self.position = position
         self.balloons = balloons
         self.goal = goal
+        self.parent = parent
+        self.visited = False
+        self.g = 0
+        self.priority = priority
 
     # returns list of all possible states
     def get_possible_states(self):
@@ -14,14 +18,15 @@ class State:
         near_balloons = {}
 
         for state in self.drive_to():
-            print(state.position)
+            to_return.append(state)
 
-        print('\n')
         for state in self.pick_up():
-            print(state.balloons)
+            to_return.append(state)
 
         for state in self.put_down():
-            print(state.balloons)
+            to_return.append(state)
+
+        return to_return
 
 
     def put_down(self):
@@ -29,10 +34,10 @@ class State:
 
         # check if near enough goal location to put down
         for key in self.goal.balloons:
-            if self.get_distance(goal.balloons[key]) < 1:
+            if self.get_distance(self.goal.balloons[key]) < 1:
                 put_down = self.balloons
                 put_down[key] = self.position
-                to_return.append(State(self.position, put_down, self.goal))
+                to_return.append(State(self.position, put_down, self.goal, self))
 
         return to_return
 
@@ -44,7 +49,7 @@ class State:
             if (self.balloons[key] == None):
                 continue
 
-            to_return.append(State(self.balloons[key], self.balloons, self.goal))
+            to_return.append(State(self.balloons[key], self.balloons, self.goal, self))
         return to_return
 
     def pick_up(self):
@@ -71,9 +76,35 @@ class State:
                     # set position of balloon to none to show its being carried
                     pick_up = self.balloons
                     pick_up[key] = None
-                    to_return.append(State(self.position, pick_up, self.goal))
+                    to_return.append(State(self.position, pick_up, self.goal, self))
 
         return to_return
+
+    def __lt__(self, other):
+        return self.priority < other.priority
+
+    # returns distance from goal state
+    # returns -1 if this is goal state
+    def get_heuristic(self):
+        # get total distance from each balloon to ideal balloon
+        total = 0
+        for key in self.balloons:
+            current = self.balloons[key]
+            goal = self.goal.balloons[key]
+
+            # check if already being carried
+            if current == None:
+                current = self.position
+
+            diff = (current[0] - goal[0]) ** 2
+            diff += (current[1] - goal[1]) ** 2
+            diff = (diff ** .5) / 2
+
+            total += diff
+
+        if total < .5:
+            return -1
+        return total
 
     # returns distance between two states
     def get_distance(self, position):
@@ -83,9 +114,9 @@ class State:
 
 
 
-balloons = { 'B': None, 'A': (10, 10), 'C': (100,100) }
-goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
-
-goal = State ( (0,0),  goal_balloons, None)
-start = State( (3,3), balloons, goal)
-start.get_possible_states()
+# balloons = { 'B': None, 'A': (10, 10), 'C': (100,100) }
+# goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
+#
+# goal = State ( (0,0),  goal_balloons, None, None)
+# start = State( (3,3), balloons, goal, None)
+# print(start.get_heuristic())
