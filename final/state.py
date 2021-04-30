@@ -131,11 +131,11 @@ class State:
 
 
 
-# balloons = { 'B': (2,2), 'A': (10, 10), 'C': (100,100) }
+# balloons = { 'B': None, 'A': (10, 10), 'C': (100,100) }
 # goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 # #
 # goal = State ( (0,0),  goal_balloons, None, None)
-# start = State( (2,2), balloons, goal, None)
+# start = State( (3,3), balloons, goal, None)
 # for state in start.get_possible_states():
 #     print(state.position)
 #     print(state.balloons)

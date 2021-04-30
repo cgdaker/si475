@@ -32,16 +32,9 @@ def aStar(root):
     s = root
     # -1 indicates this is goal state
     while (s.get_heuristic() != -1):
-        print(str(s.position) + ' ' + str(s.balloons))
+        print('s: ' + str(s.position) + ' ' + str(s.balloons))
         # get list of all adjacent states
         adj_states = s.get_possible_states()
-
-        # remove current state
-        # for state in adj_states:
-        #     if state.to_string() == s.to_string():
-        #         print('removed')
-        #         adj_states.remove(state)
-        #         print(adj_states)
 
         # check if in visited - if yes, replace state with one from visted dict
         for state in adj_states:
@@ -52,8 +45,8 @@ def aStar(root):
                 continue
 
             # else add the state
+            print( ' adding new: ' + state.to_string())
             visited_states[state.to_string()] = state
-
 
         for state in adj_states:
             if s.to_string() == state.to_string():
@@ -63,7 +56,7 @@ def aStar(root):
             if state.visited == False:
                 state.visited = True
                 print("in unvisited")
-                state.g = state.get_distance(s.position)
+                state.g = state.get_distance(s.position) + s.g
                 h = state.get_heuristic()
                 priority = state.g + h
                 print(str(priority) + str(state.position))
@@ -73,11 +66,13 @@ def aStar(root):
             # if visited
             else:
                 print("visited")
+                print(str(state.get_distance(s.position) + s.g) + ' ' + str(state.g))
                 if state.get_distance(s.position) + s.g < state.g:
                     state.g = state.g + state.get_distance(s.position)
                     h = state.get_heuristic()
                     priority = state.g + h
                     state.priority = priority
+                    print(str(priority) + str(state.position))
                     pq.put(state)
 
         #print("here")
