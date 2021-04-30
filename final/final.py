@@ -27,6 +27,7 @@ def get_nodelist(path):
 def aStar(root):
     # make pq
     pq = PriorityQueue()
+    visited_states = {}
 
     s = root
     # -1 indicates this is goal state
@@ -36,15 +37,31 @@ def aStar(root):
         adj_states = s.get_possible_states()
 
         # remove current state
+        # for state in adj_states:
+        #     if state.to_string() == s.to_string():
+        #         print('removed')
+        #         adj_states.remove(state)
+        #         print(adj_states)
+
+        # check if in visited - if yes, replace state with one from visted dict
         for state in adj_states:
-            if state.position == s.position and state.balloons == s.balloons:
-                print('removed')
+            if state.to_string() in visited_states:
+                print("already seen")
                 adj_states.remove(state)
+                adj_states.append(visited_states[state.to_string()])
+                continue
+
+            # else add the state
+            visited_states[state.to_string()] = state
 
 
         for state in adj_states:
+            if s.to_string() == state.to_string():
+                continue
+
             print(str(state.position) + ' ' + str(state.balloons))
             if state.visited == False:
+                state.visited = True
                 print("in unvisited")
                 state.g = state.get_distance(s.position)
                 h = state.get_heuristic()
@@ -56,7 +73,7 @@ def aStar(root):
             # if visited
             else:
                 print("visited")
-                if (state in pq) and state.get_distance(s.position) + state.g < state.g:
+                if state.get_distance(s.position) + s.g < state.g:
                     state.g = state.g + state.get_distance(s.position)
                     h = state.get_heuristic()
                     priority = state.g + h

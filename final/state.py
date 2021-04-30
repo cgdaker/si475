@@ -18,12 +18,17 @@ class State:
         near_balloons = {}
 
         for state in self.drive_to():
+            #print(state.to_string())
             to_return.append(state)
 
+        #print(self.to_string())
+
         for state in self.pick_up():
+            #print(state.to_string())
             to_return.append(state)
 
         for state in self.put_down():
+            #print(state.to_string())
             to_return.append(state)
 
         return to_return
@@ -35,9 +40,11 @@ class State:
         # check if near enough goal location to put down
         for key in self.goal.balloons:
             if self.get_distance(self.goal.balloons[key]) < 1:
-                put_down = self.balloons
+                put_down = self.balloons.copy()
                 put_down[key] = self.position
-                to_return.append(State(self.position, put_down, self.goal, self))
+                ret = State(self.position, put_down, self.goal, self)
+                #print(ret.to_string())
+                to_return.append(ret)
 
         return to_return
 
@@ -49,8 +56,16 @@ class State:
             if (self.balloons[key] == None):
                 continue
 
-            to_return.append(State(self.balloons[key], self.balloons, self.goal, self))
+            if (self.get_distance(self.balloons[key]) < .5):
+                continue
+
+            toreturn = State(self.balloons[key], self.balloons, self.goal, self)
+            #print(toreturn.to_string())
+            to_return.append(toreturn)
         return to_return
+
+    def to_string(self):
+        return str(self.position) + ' ' + str(self.balloons)
 
     def pick_up(self):
         to_return = []
@@ -74,9 +89,11 @@ class State:
                 if self.get_distance(self.balloons[key]) < 1:
 
                     # set position of balloon to none to show its being carried
-                    pick_up = self.balloons
+                    pick_up = self.balloons.copy()
                     pick_up[key] = None
-                    to_return.append(State(self.position, pick_up, self.goal, self))
+                    ret = State(self.position, pick_up, self.goal, self)
+                    #print(ret.to_string())
+                    to_return.append(ret)
 
         return to_return
 
@@ -114,9 +131,12 @@ class State:
 
 
 
-# balloons = { 'B': None, 'A': (10, 10), 'C': (100,100) }
+# balloons = { 'B': (2,2), 'A': (10, 10), 'C': (100,100) }
 # goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
-#
+# #
 # goal = State ( (0,0),  goal_balloons, None, None)
-# start = State( (3,3), balloons, goal, None)
-# print(start.get_heuristic())
+# start = State( (2,2), balloons, goal, None)
+# for state in start.get_possible_states():
+#     print(state.position)
+#     print(state.balloons)
+#     print('\n')
