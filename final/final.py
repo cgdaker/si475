@@ -88,6 +88,34 @@ def aStar(root):
 
     return s
 
+# calls an action based on two states
+def action(prev, current):
+    # stringify for comparison
+    prevstr = prev.to_string()
+    curstr = current.to_string()
+
+    # break apart at the colon
+    prev_chunks = prevstr.split(':')
+    cur_chunks = curstr.split(':')
+
+    # check if positions are diff
+    if (prev_chunks[0] != cur_chunks[0]):
+        print('driving ' + cur_chunks[0])
+        return
+
+    # next break up the dicts and check individually
+    prev_bal = prev.balloons
+    cur_bal = current.balloons
+
+    # check if any key has changed - if so, call pickup / putdown accordingly
+    for key in prev_bal:
+        if prev_bal[key] != cur_bal[key]:
+            # check if pick up or put down
+            if prev_bal[key] == None:
+                print('putting down ' + key)
+            else:
+                print('picking up ' + key)
+
 # start and end state, nodelist
 balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
 goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
@@ -102,8 +130,15 @@ while (s != None):
     path.append(s)
     s = s.parent
 
+# print all the states
+path.reverse()
+prev_state = path[0]
+path.remove(prev_state)
 for state in path:
-    print(state.to_string())
+    # call an action, and update prev_state
+    #print(prev_state.to_string() + ' ' + state.to_string())
+    action(prev_state, state)
+    prev_state = state
 
 
 # for state in path:

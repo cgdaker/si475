@@ -79,7 +79,7 @@ class State:
         return to_return
 
     def to_string(self):
-        return str(self.position) + ' ' + str(self.balloons)
+        return str(self.position) + ': ' + str(self.balloons)
 
     def pick_up(self):
         to_return = []
