@@ -1,5 +1,8 @@
 from state import State
 from queue import PriorityQueue
+from turtleAPI import robot
+from map import Map
+from driver import Driver
 
 def get_nodelist(path):
 
@@ -101,6 +104,9 @@ def action(prev, current):
     # check if positions are diff
     if (prev_chunks[0] != cur_chunks[0]):
         print('driving ' + cur_chunks[0])
+        map = Map()
+        map.e = cur_chunks[0]
+        map.drive()
         return
 
     # next break up the dicts and check individually
@@ -115,13 +121,25 @@ def action(prev, current):
                 print('putting down ' + key)
             else:
                 print('picking up ' + key)
+                d = Driver()
+                d.pickup(key)
+
+# read in file name
+r = robot()
+pose = r.getMCLPose()
+
+with open('start.json') as f1:
+    start = json.load(f1)
+
+with open('simple.json') as f1:
+    goal = json.load(f1)
 
 # start and end state, nodelist
 balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
 goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 
-goal = State ( (0,0),  goal_balloons, None, None)
-start = State( (3,3), balloons, goal, None)
+goal = State ( (pose[0],pose[1]),  start, None, None)
+start = State( (pose[0],pose[1]), goal, goal, None)
 s = aStar(start)
 
 # trace the path
@@ -134,9 +152,11 @@ while (s != None):
 path.reverse()
 prev_state = path[0]
 path.remove(prev_state)
+
+# init ryan's driver
 for state in path:
     # call an action, and update prev_state
-    #print(prev_state.to_string() + ' ' + state.to_string())
+    # print(prev_state.to_string() + ' ' + state.to_string())
     action(prev_state, state)
     prev_state = state
 
