@@ -1,7 +1,7 @@
 from state import State
 from Queue import PriorityQueue
 import json
-#from turtleAPI import robot
+from turtleAPI import robot
 from map import Map
 from drive import Driver
 
