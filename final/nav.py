@@ -133,9 +133,9 @@ def find(x):
 
     path = path.split(' ')
 
-    if(not third_arg):
-        for name in path:
-            node = adj_matrix[name]
-            driver.run(node.x, node.y, r)
 
-        r.drive(0, 0)
+    for name in path:
+        node = adj_matrix[name]
+        driver.run(node.x, node.y, r)
+
+    r.drive(0, 0)
