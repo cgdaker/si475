@@ -58,7 +58,7 @@ def drive(node_list, robot):
         driver.run(node.x, node.y, robot)
 
 
-def find(x):
+def find(x, robot):
     # parse args
     # parser = argparse.ArgumentParser(description='Navigate the robot to a given location')
     # parser.add_argument('path', metavar='p', type=str, help='path to DOT file')
@@ -66,7 +66,7 @@ def find(x):
     # parser.add_argument('start', metavar='s', nargs = "?", type=str, help='goal position')
     # args = parser.parse_args()
 
-    r = robot()
+    r = robot
 
     # read in all vertices
     file = open('graph.dot', 'r')

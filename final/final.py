@@ -93,7 +93,7 @@ def aStar(root):
     return s
 
 # calls an action based on two states
-def action(prev, current):
+def action(prev, current, r):
     # stringify for comparison
     prevstr = prev.to_string()
     curstr = current.to_string()
@@ -105,7 +105,7 @@ def action(prev, current):
     # check if positions are diff
     if (prev_chunks[0] != cur_chunks[0]):
         print('driving ' + cur_chunks[0])
-        nav.find(cur_chunks[0])
+        nav.find(cur_chunks[0], r)
         return
 
     # next break up the dicts and check individually
@@ -160,7 +160,7 @@ path.remove(prev_state)
 for state in path:
     # call an action, and update prev_state
     # print(prev_state.to_string() + ' ' + state.to_string())
-    action(prev_state, state)
+    action(prev_state, state, r)
     prev_state = state
 
 print('putting down final balloon')
