@@ -60,11 +60,11 @@ def drive(node_list, robot):
 
 def find(x):
     # parse args
-    parser = argparse.ArgumentParser(description='Navigate the robot to a given location')
-    parser.add_argument('path', metavar='p', type=str, help='path to DOT file')
-    parser.add_argument('coord', metavar='c', type=str, help='goal position')
-    parser.add_argument('start', metavar='s', nargs = "?", type=str, help='goal position')
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description='Navigate the robot to a given location')
+    # parser.add_argument('path', metavar='p', type=str, help='path to DOT file')
+    # parser.add_argument('coord', metavar='c', type=str, help='goal position')
+    # parser.add_argument('start', metavar='s', nargs = "?", type=str, help='goal position')
+    # args = parser.parse_args()
 
     r = robot()
 
