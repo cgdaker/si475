@@ -1,9 +1,9 @@
 from state import State
-from Queue import PriorityQueue
+from queue import PriorityQueue
 import json
-from turtleAPI import robot
-from map import Map
-import nav
+# from turtleAPI import robot
+# from map import Map
+# import nav
 
 def get_nodelist(path):
 
@@ -93,7 +93,7 @@ def aStar(root):
     return s
 
 # calls an action based on two states
-def action(prev, current, r):
+def action(prev, current):
     # stringify for comparison
     prevstr = prev.to_string()
     curstr = current.to_string()
@@ -105,7 +105,7 @@ def action(prev, current, r):
     # check if positions are diff
     if (prev_chunks[0] != cur_chunks[0]):
         print('driving ' + cur_chunks[0])
-        nav.find(cur_chunks[0], r)
+        # nav.find(cur_chunks[0], r)
         return
 
     # next break up the dicts and check individually
@@ -124,25 +124,24 @@ def action(prev, current, r):
 #                d.pickup(key)
 
 # read in file name
-r = robot()
-pose = r.getMCLPose()
+# r = robot()
+# pose = r.getMCLPose()
 
 with open('start.json') as f1:
-    start_dict = json.load(f1)
+    start = json.load(f1)
 
-with open('simple.json') as f1:
-    goal_dict = json.load(f1)
+with open('harder.json') as f1:
+    goal = json.load(f1)
 
 # start and end state, nodelist
 #balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
 #goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 
-goal = State ( (pose[0],pose[1]),  goal_dict, None, None)
-start = State( (pose[0],pose[1]), start_dict, goal, None)
+# goal = State ( (pose[0],pose[1]),  goal_dict, None, None)
+# start = State( (pose[0],pose[1]), start_dict, goal, None)
 
-print(start)
-# goal = State ( (0,0),  goal, None, None)
-# start = State( (0,0), start, goal, None)
+goal = State ( (0,0),  goal, None, None)
+start = State( (0,0), start, goal, None)
 s = aStar(start)
 
 # trace the path
@@ -160,7 +159,7 @@ path.remove(prev_state)
 for state in path:
     # call an action, and update prev_state
     # print(prev_state.to_string() + ' ' + state.to_string())
-    action(prev_state, state, r)
+    action(prev_state, state)
     prev_state = state
 
 print('putting down final balloon')
