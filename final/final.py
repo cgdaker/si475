@@ -130,17 +130,17 @@ r = robot()
 pose = r.getMCLPose()
 
 with open('start.json') as f1:
-    start = json.load(f1)
+    start_dict = json.load(f1)
 
 with open('simple.json') as f1:
-    goal = json.load(f1)
+    goal_dict = json.load(f1)
 
 # start and end state, nodelist
 #balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
 #goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 
-goal = State ( (pose[0],pose[1]),  start, None, None)
-start = State( (pose[0],pose[1]), goal, goal, None)
+goal = State ( (pose[0],pose[1]),  goal_dict, None, None)
+start = State( (pose[0],pose[1]), start_dict, goal, None)
 
 print(start)
 # goal = State ( (0,0),  goal, None, None)
