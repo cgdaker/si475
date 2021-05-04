@@ -1,6 +1,7 @@
 from state import State
 from queue import PriorityQueue
-from turtleAPI import robot
+import json
+#from turtleAPI import robot
 from map import Map
 from driver import Driver
 
@@ -121,12 +122,12 @@ def action(prev, current):
                 print('putting down ' + key)
             else:
                 print('picking up ' + key)
-                d = Driver()
-                d.pickup(key)
+#                d = Driver()
+#                d.pickup(key)
 
 # read in file name
-r = robot()
-pose = r.getMCLPose()
+#r = robot()
+#pose = r.getMCLPose()
 
 with open('start.json') as f1:
     start = json.load(f1)
@@ -138,8 +139,12 @@ with open('simple.json') as f1:
 balloons = { 'B': (7,4), 'A': (10, 10), 'C': (100,100) }
 goal_balloons = { 'B': (3,3), 'A': (5,5), 'C': (50,50) }
 
-goal = State ( (pose[0],pose[1]),  start, None, None)
-start = State( (pose[0],pose[1]), goal, goal, None)
+# goal = State ( (pose[0],pose[1]),  start, None, None)
+# start = State( (pose[0],pose[1]), goal, goal, None)
+
+print(start)
+goal = State ( (0,0),  goal, None, None)
+start = State( (0,0), start, goal, None)
 s = aStar(start)
 
 # trace the path
@@ -160,6 +165,7 @@ for state in path:
     action(prev_state, state)
     prev_state = state
 
+print('putting down final balloon')
 
 # for state in path:
 #     print(state.to_string())
