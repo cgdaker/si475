@@ -125,8 +125,7 @@ def action(prev, current):
 
 # read in file name
 r = robot()
-pose = r.getMCLPose().replace('[', '(')
-pose = pose.replace(']', ')')
+pose = r.getMCLPose()
 
 with open('start.json') as f1:
     start_dict = json.load(f1)
