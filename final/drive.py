@@ -7,7 +7,7 @@ class Driver:
         self.r = robot()
         self.error_list_pos = []
         self.error_list_angle = []
-        
+
     def goto(self,x,y):
         goal_pos = (x, y)
 
@@ -121,9 +121,9 @@ class Driver:
             if bDist < 750 and bDist >0:
                 count += 1
                 if (count>1):
-                    break   
+                    break
             else:
-                count = 0 
+                count = 0
             ros.sleep()
         self.r.drive(angSpeed=0, linSpeed=0)
 
@@ -198,11 +198,11 @@ def augmentedImg(image, mask, color):
 
 def getMask(light, dark, img):
     hsv_test = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        mask = cv2.inRange(hsv_test, light, dark)
-        mask = cv2.fastNlMeansDenoising(mask, mask, 100, 7, 21)
-        ret, mask = cv2.threshold(mask, 127, 255, cv2.THRESH_BINARY)
+    mask = cv2.inRange(hsv_test, light, dark)
+    mask = cv2.fastNlMeansDenoising(mask, mask, 100, 7, 21)
+    ret, mask = cv2.threshold(mask, 127, 255, cv2.THRESH_BINARY)
     cv2.imshow('mask.jpg',mask)
-        cv2.waitKey(1)
+    cv2.waitKey(1)
     return mask
 
 def findCoM(light, dark, img, mask):
@@ -253,4 +253,4 @@ def getBalloonDist(mask, depth):
             xx += 1
     if numPixels == 0:
         return 10000
-    return totDist/numPixels    
+    return totDist/numPixels
