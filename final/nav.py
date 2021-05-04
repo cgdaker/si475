@@ -71,7 +71,7 @@ def find(x):
     # read in all vertices
     file = open('graph.dot', 'r')
     goal_coords = x
-
+    print('goal coords ' + str(goal_coords))
     #dict to hold the dicts
     adj_matrix = {}
     next(file)
