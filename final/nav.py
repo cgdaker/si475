@@ -84,8 +84,8 @@ def find(x):
         line_parts = line.split('[')
         label = line_parts[0].strip(' ')
         coords = line_parts[1].split('"')[1].split(",")
-        x = coords[0].strip('[')
-        y = coords[1].strip(']')
+        x = coords[0].strip('[').strip('(')
+        y = coords[1].strip('').strip(')')
 
         # create the vertex and add if not already in
         v = Vertex(label, x, y)
