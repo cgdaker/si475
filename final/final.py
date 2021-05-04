@@ -1,5 +1,5 @@
 from state import State
-from queue import PriorityQueue
+from Queue import PriorityQueue
 import json
 #from turtleAPI import robot
 from map import Map
