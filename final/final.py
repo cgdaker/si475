@@ -3,7 +3,7 @@ from Queue import PriorityQueue
 import json
 from turtleAPI import robot
 from map import Map
-from drive import Driver
+import nav
 
 def get_nodelist(path):
 
@@ -105,9 +105,7 @@ def action(prev, current):
     # check if positions are diff
     if (prev_chunks[0] != cur_chunks[0]):
         print('driving ' + cur_chunks[0])
-        map = Map()
-        map.e = cur_chunks[0]
-        map.drive()
+        nav.find(cur_chunks[0])
         return
 
     # next break up the dicts and check individually

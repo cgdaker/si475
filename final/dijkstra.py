@@ -21,6 +21,7 @@ def dijkstra(matrix, startKey, destinationKey):
         node = Node(key, matrix[key].adj_nodes)
         unvisitedNodes.append(node)
         unvisitedKeys.append(key)
+        print(key)
         if(key == destinationKey):
             destinationNode = node
 
@@ -32,7 +33,7 @@ def dijkstra(matrix, startKey, destinationKey):
         #print(node.name + " " + str(node.value))
 
     # set initial node as current and distance value to zero
-    current = unvisitedNodes[unvisitedNodes.length]
+    current = unvisitedNodes[unvisitedKeys.index("Start")]
     current.value = 0
 
     while(True):
@@ -74,7 +75,7 @@ def dijkstra(matrix, startKey, destinationKey):
         #5 If the destination node has been marked visited (when planning a route between two specific nodes) or if the smallest tentative distance among the nodes in the unvisited set is infinity (when planning a complete traversal; occurs when there is no connection between the initial node and remaining unvisited nodes), then stop. The algorithm has finished.
         if(destinationNode.visited == True):
             #print("algorithm complete: output answer here")
-            print(getParents(destinationNode))
+            return getParents(destinationNode)
             break
 
         #6 Otherwise, select the unvisited node that is marked with the smallest tentative distance, set it as the new "current node", and go back to step 3.
